@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebEngine.Entities;
 
 namespace WebEngine.Data
 {
@@ -8,7 +7,5 @@ namespace WebEngine.Data
         public SqliteDbContext(DbContextOptions options) : base(options)
         {
         }
-
-        public DbSet<Person> People { get; set; }
     }
 }
