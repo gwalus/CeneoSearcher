@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebEngine.Data;
 
-namespace WebEngine.Migrations
+namespace WebEngine.Data.Migrations
 {
     [DbContext(typeof(SqliteDbContext))]
     partial class SqliteDbContextModelSnapshot : ModelSnapshot
@@ -15,18 +15,26 @@ namespace WebEngine.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.1");
 
-            modelBuilder.Entity("WebEngine.Entities.Person", b =>
+            modelBuilder.Entity("WebEngine.Entities.Product", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Link")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Price")
+                        .HasColumnType("TEXT");
 
-                    b.ToTable("People");
+                    b.Property<string>("Rate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Link");
+
+                    b.ToTable("Products");
                 });
 #pragma warning restore 612, 618
         }
