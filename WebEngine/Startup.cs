@@ -21,7 +21,7 @@ namespace WebEngine
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<SqliteDbContext>(options =>
+            services.AddDbContext<ProductContext>(options =>
             {
                 options.UseSqlite(_configuration.GetConnectionString("SqliteConnectionString"));
             });

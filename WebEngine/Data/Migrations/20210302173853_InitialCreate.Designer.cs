@@ -7,7 +7,7 @@ using WebEngine.Data;
 
 namespace WebEngine.Data.Migrations
 {
-    [DbContext(typeof(SqliteDbContext))]
+    [DbContext(typeof(ProductContext))]
     [Migration("20210302173853_InitialCreate")]
     partial class InitialCreate
     {

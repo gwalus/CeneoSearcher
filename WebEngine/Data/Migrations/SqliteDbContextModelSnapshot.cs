@@ -6,7 +6,7 @@ using WebEngine.Data;
 
 namespace WebEngine.Data.Migrations
 {
-    [DbContext(typeof(SqliteDbContext))]
+    [DbContext(typeof(ProductContext))]
     partial class SqliteDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
