@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace WebEngine
 {
@@ -14,7 +14,7 @@ namespace WebEngine
 
         public ICollection<Product> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Products.ToList();
         }
     }
 }
