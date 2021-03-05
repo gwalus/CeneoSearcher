@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace WebEngine
 {
-    class ProductRepository : IProductRepository
+    public class ProductRepository : IProductRepository
     {
         private ProductContext _context;
 
