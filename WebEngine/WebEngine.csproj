@@ -23,12 +23,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
-<<<<<<< HEAD
   <ItemGroup>
     <Folder Include="Entities\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
-=======
->>>>>>> gw/25/ceneoControllerTests
 </Project>

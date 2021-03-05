@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebEngine.Entities;
+using WebEngine.Model;
 
 namespace WebEngine.Data
 {
