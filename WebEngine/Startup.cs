@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using WebEngine.Data;
 
 namespace WebEngine
 {
@@ -21,6 +20,10 @@ namespace WebEngine
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+<<<<<<< HEAD
+=======
+            services.AddScoped<IProductRepository, ProductRepository>();
+>>>>>>> gw/25/ceneoControllerTests
             services.AddDbContext<ProductContext>(options =>
             {
                 options.UseSqlite(_configuration.GetConnectionString("SqliteConnectionString"));

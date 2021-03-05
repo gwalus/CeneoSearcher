@@ -3,12 +3,18 @@ using AutoFixture.AutoMoq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+<<<<<<< HEAD
 using WebEngine.Data;
 using WebEngine.Entities;
 using WebEngine.Repositories;
 using Xunit;
 
 namespace WebEngine.Test
+=======
+using Xunit;
+
+namespace WebEngine
+>>>>>>> gw/25/ceneoControllerTests
 {
     public class CeneoControllerTests
     {

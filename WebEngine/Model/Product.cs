@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebEngine.Entities
+namespace WebEngine
 {
     public class Product
     {
