@@ -8,6 +8,8 @@ using Microsoft.OpenApi.Models;
 using WebEngine.Data;
 using WebEngine.Interfaces;
 using WebEngine.Services;
+using WebEngine.Repositories;
+
 
 namespace WebEngine
 {
@@ -23,8 +25,14 @@ namespace WebEngine
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddScoped<IWebScraper, WebScraper>();
             services.AddDbContext<SqliteDbContext>(options =>
+
+            services.AddScoped<IProductRepository, ProductRepository>();
+
+            services.AddDbContext<ProductContext>(options =>
+
             {
                 options.UseSqlite(_configuration.GetConnectionString("SqliteConnectionString"));
             });

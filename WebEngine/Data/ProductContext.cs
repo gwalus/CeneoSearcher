@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebEngine.Entities;
+using WebEngine.Model;
 
 namespace WebEngine.Data
 {
-    public class SqliteDbContext : DbContext
+    public class ProductContext : DbContext
     {
-        public SqliteDbContext(DbContextOptions options) : base(options)
+        public ProductContext(DbContextOptions options) : base(options)
         {
         }
 
