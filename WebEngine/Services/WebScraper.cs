@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebEngine.Entities;
 using WebEngine.Interfaces;
+using WebEngine.Model;
 
 namespace WebEngine.Services
 {

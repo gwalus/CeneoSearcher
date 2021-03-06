@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WebEngine.Entities;
+using WebEngine.Model;
 
 namespace WebEngine.Interfaces
 {
