@@ -3,6 +3,7 @@ using AutoFixture.AutoMoq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebEngine.Data;
 using WebEngine.Model;
 using WebEngine.Repositories;
@@ -39,7 +40,7 @@ namespace WebEngine
             using (var context = new ProductContext(options))
             {
                 var repository = new ProductRepository(context);
-                actualProducts = repository.GetAll().ToList();
+                actualProducts = repository.GetSubscibedProductsAsync().Result.ToList();
             }
 
             //Assert
