@@ -31,5 +31,13 @@ namespace WebEngine.Controllers
         {
             return await _productRepository.GetSubscibedProductsAsync();
         }
+
+        [HttpPost("/subscribe")]
+        public async Task<ActionResult> SubscribeProduct(Product productToAdd)
+        {
+            if (await _productRepository.AddProduct(productToAdd)) return Ok("Product has been subscribed");
+
+            return BadRequest();
+        }
     }
 }
