@@ -7,5 +7,6 @@ namespace WebEngine.Interfaces
     public interface IProductRepository
     {
         Task<ICollection<Product>> GetSubscibedProductsAsync();
+        Task<bool> AddProduct(Product productToAdd);
     }
 }

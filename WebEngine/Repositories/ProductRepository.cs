@@ -16,6 +16,14 @@ namespace WebEngine.Repositories
             _context = context;
         }
 
+        public async Task<bool> AddProduct(Product productToAdd)
+        {
+            await _context.AddAsync(productToAdd);
+            if (await _context.SaveChangesAsync() > 0)
+                return true;
+            return false;
+        }
+
         public async Task<ICollection<Product>> GetSubscibedProductsAsync()
         {
             return await _context.Products.ToListAsync();
