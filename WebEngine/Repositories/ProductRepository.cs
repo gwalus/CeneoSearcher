@@ -24,6 +24,16 @@ namespace WebEngine.Repositories
             return false;
         }
 
+        public async Task<bool> DeleteProduct(string link)
+        {
+            var productToRemove = await _context.Products.SingleOrDefaultAsync(p => p.Link == link);
+            _context.Remove(productToRemove);
+
+            if (await _context.SaveChangesAsync() > 0) return true;
+
+            return false;
+        }
+
         public async Task<ICollection<Product>> GetSubscibedProductsAsync()
         {
             return await _context.Products.ToListAsync();
