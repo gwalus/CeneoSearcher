@@ -39,5 +39,14 @@ namespace WebEngine.Controllers
 
             return BadRequest();
         }
+
+
+        [HttpPost("/unsubscribe")]
+        public async Task<ActionResult> UnsubscribeProduct(string link)
+        {
+            if (await _productRepository.DeleteProduct(link)) return Ok("Product has been unsubscribed");
+
+            return BadRequest("Something went wrong");
+        }
     }
 }
