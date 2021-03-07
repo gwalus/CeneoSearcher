@@ -8,5 +8,6 @@ namespace WebEngine.Interfaces
     {
         Task<ICollection<Product>> GetSubscibedProductsAsync();
         Task<bool> AddProduct(Product productToAdd);
+        Task<bool> DeleteProduct(string link);
     }
 }
