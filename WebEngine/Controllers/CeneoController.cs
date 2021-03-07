@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebEngine.Interfaces;
 using WebEngine.Model;
 
@@ -19,16 +20,24 @@ namespace WebEngine.Controllers
             _ceneoWebScraper = ceneoWebScraper;
         }
 
-        [HttpGet]
-        public ActionResult<IList<Product>> GetProductsAsync()
-        {
-            return _productRepository.GetAll().ToList();
-        }
-
         [HttpGet("/getproductsbykeyword")]
         public ActionResult<IList<Product>> GetProductsFromCeneo(string keyword)
         {
             return _ceneoWebScraper.GetListOfProducts(_baseUrl + keyword);
+        }
+
+        [HttpGet("/getsubscribedproducts")]
+        public async Task<ICollection<Product>> GetProductsAsync()
+        {
+            return await _productRepository.GetSubscibedProductsAsync();
+        }
+
+        [HttpPost("/subscribe")]
+        public async Task<ActionResult> SubscribeProduct(Product productToAdd)
+        {
+            if (await _productRepository.AddProduct(productToAdd)) return Ok("Product has been subscribed");
+
+            return BadRequest();
         }
     }
 }

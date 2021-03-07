@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebEngine.Data;
 using WebEngine.Interfaces;
 using WebEngine.Model;
@@ -15,9 +16,17 @@ namespace WebEngine.Repositories
             _context = context;
         }
 
-        public ICollection<Product> GetAll()
+        public async Task<bool> AddProduct(Product productToAdd)
         {
-            return _context.Products.ToList();
+            await _context.AddAsync(productToAdd);
+            if (await _context.SaveChangesAsync() > 0)
+                return true;
+            return false;
+        }
+
+        public async Task<ICollection<Product>> GetSubscibedProductsAsync()
+        {
+            return await _context.Products.ToListAsync();
         }
     }
 }
