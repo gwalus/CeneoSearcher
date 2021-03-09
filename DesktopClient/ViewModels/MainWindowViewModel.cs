@@ -3,6 +3,8 @@ using DesktopClient.Model;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace DesktopClient.ViewModels
@@ -26,11 +28,15 @@ namespace DesktopClient.ViewModels
         readonly IProductRepository _productRepository;
 
         public DelegateCommand SearchProductCommand { get; private set; }
+        public DelegateCommand<string> GoToWebSiteProductCommand { get; private set; }
+        public DelegateCommand<string> SubscribeProductCommand { get; private set; }
 
         public MainWindowViewModel(IProductRepository productRepository)
         {
             _productRepository = productRepository;
             SearchProductCommand = new DelegateCommand(SearchProductAsync, CanSearchProduct);
+            GoToWebSiteProductCommand = new DelegateCommand<string>(GoToWebSiteProduct, CanGoToWebSiteProduct);
+            SubscribeProductCommand = new DelegateCommand<string>(SubscribeProduct, CanSubscribeProduct);
         }
 
         void SearchProductAsync()
@@ -47,6 +53,52 @@ namespace DesktopClient.ViewModels
         }
 
         bool CanSearchProduct()
+        {
+            return true;
+        }
+
+        void GoToWebSiteProduct(string id)
+        {
+            var url = $"https://www.ceneo.pl{id}"; 
+
+            try
+            {
+                Process.Start(url);
+            }
+            catch
+            {
+                // hack because of this: https://github.com/dotnet/corefx/issues/10361
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    url = url.Replace("&", "^&");
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", url);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        bool CanGoToWebSiteProduct(string id)
+        {
+            return true;
+        }
+
+        void SubscribeProduct(string id)
+        {
+
+        }
+
+        bool CanSubscribeProduct(string id)
         {
             return true;
         }

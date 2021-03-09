@@ -87,13 +87,19 @@
                                     Text="{Binding Price, StringFormat='{}{0} zł'}" />
 
                                 <StackPanel Grid.Column="3" Orientation="Horizontal">
+                                    
                                     <Button 
+                                       
+                                        Command="{Binding Path=DataContext.GoToWebSiteProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        CommandParameter="{Binding Link}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center"
                                         Style="{StaticResource MaterialDesignOutlinedButton}"
                                         Content="{materialDesign:PackIcon Heart}"
                                         Height="30px"/>
 
                                     <Button
+                                        Command="{Binding SubscribeProductCommand}"
+                                        CommandParameter="{Binding Link}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center"
                                         Content="{materialDesign:PackIcon ArrowRight}"
                                         Height="30px" />
