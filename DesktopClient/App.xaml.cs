@@ -1,4 +1,6 @@
-﻿using DesktopClient.Views;
+﻿using DesktopClient.Interfaces;
+using DesktopClient.Services;
+using DesktopClient.Views;
 using Prism.Ioc;
 using Prism.Unity;
 using System.Windows;
@@ -18,7 +20,7 @@ namespace DesktopClient
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // Register Services
+            containerRegistry.RegisterScoped<IProductRepository, ProductRepository>();
         }
     }
 }
