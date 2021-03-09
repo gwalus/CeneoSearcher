@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebEngine.Entities;
+using System.Text.Json;
 using WebEngine.Interfaces;
+using WebEngine.Model;
 
 namespace WebEngine.Services
 {
@@ -76,5 +77,20 @@ namespace WebEngine.Services
             }
             return _products;
         }
+
+        public double UpdatePrice(string link)
+        {
+            HtmlWeb web = new HtmlWeb();
+            var htmlDoc = web.Load("https://www.ceneo.pl/"+$"{link}");
+            var node = htmlDoc.DocumentNode.SelectSingleNode($"//script");
+            try
+            {
+                double lowPrice = JsonSerializer.Deserialize<ProductInteriorPrice>(node.InnerText).Offers.LowPrice;
+                return lowPrice;
+            }
+            catch (Exception) { return 0; }
+        }
+
+       
     }
 }
