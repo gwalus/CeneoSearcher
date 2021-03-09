@@ -55,12 +55,12 @@
                 Header="{materialDesign:PackIcon Kind=search, Size=24}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
 
-                <ListBox Name="ProductsList" ItemsSource="{Binding Products}" HorizontalContentAlignment="Stretch">
+                <ListBox ItemsSource="{Binding Products}" HorizontalContentAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" SharedSizeGroup="Key" />
+                                    <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="9*" />
                                     <ColumnDefinition Width="3*" />
                                     <ColumnDefinition Width="2*" />
@@ -87,14 +87,12 @@
                                     Text="{Binding Price, StringFormat='{}{0} zł'}" />
 
                                 <StackPanel Grid.Column="3" Orientation="Horizontal">
-                                    
                                     <Button 
-                                       
                                         Command="{Binding Path=DataContext.SubscribeProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                         CommandParameter="{Binding .}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center"
                                         Style="{StaticResource MaterialDesignOutlinedButton}"
-                                        Content="{materialDesign:PackIcon Heart}"
+                                        Content="{materialDesign:PackIcon HeartPlusOutline}"
                                         Height="30px"/>
 
                                     <Button
@@ -110,16 +108,56 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </TabItem>
-            
+
             <TabItem
                 Header="{materialDesign:PackIcon Kind=Heart, Size=24}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}">
-                <TextBlock>
-                    sub
-                </TextBlock>
+
+                <ListBox ItemsSource="{Binding SubscribeProductCollection}" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="9*" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Column="0" MaxWidth="100px" Source="{Binding Image}" />
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Grid.Column="1"
+                                    FontSize="17px"
+                                    Text="{Binding Name}"/>
+
+                                    <TextBlock
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Text="{Binding Rate}" />
+                                </StackPanel>
+
+                                <TextBlock
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Grid.Column="2"
+                                    FontSize="17px"
+                                    Text="{Binding Price, StringFormat='{}{0} zł'}" />
+
+                                <Button 
+                                    Command="{Binding Path=DataContext.UnSubscribeProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                    CommandParameter="{Binding .}"
+                                    Grid.Column="3"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                    Content="{materialDesign:PackIcon HeartMinusOutline}"
+                                    Height="30px"/>
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </TabItem>
         </TabControl>
-
-
     </DockPanel>
 </Window>

@@ -18,6 +18,13 @@ namespace DesktopClient.ViewModels
             set { SetProperty(ref _product, value); }
         }
 
+        private ObservableCollection<Product> _subscribeProductCollection;
+        public ObservableCollection<Product> SubscribeProductCollection
+        {
+            get { return _subscribeProductCollection; }
+            set { SetProperty(ref _subscribeProductCollection, value); }
+        }
+
         private string _text;
         public string Text
         {
@@ -30,6 +37,7 @@ namespace DesktopClient.ViewModels
         public DelegateCommand SearchProductCommand { get; private set; }
         public DelegateCommand<string> GoToWebSiteProductCommand { get; private set; }
         public DelegateCommand<Product> SubscribeProductCommand { get; private set; }
+        public DelegateCommand<Product> UnSubscribeProductCommand { get; private set; }
 
         public MainWindowViewModel(IProductRepository productRepository)
         {
@@ -37,6 +45,8 @@ namespace DesktopClient.ViewModels
             SearchProductCommand = new DelegateCommand(SearchProductAsync, CanSearchProduct);
             GoToWebSiteProductCommand = new DelegateCommand<string>(GoToWebSiteProduct, CanGoToWebSiteProduct);
             SubscribeProductCommand = new DelegateCommand<Product>(SubscribeProduct, CanSubscribeProduct);
+            UnSubscribeProductCommand = new DelegateCommand<Product>(UnSubscribeProduct, CanUnSubscribeProduct);
+            GetSubscribeProduct();
         }
 
         void SearchProductAsync()
@@ -46,6 +56,7 @@ namespace DesktopClient.ViewModels
                 var products = new ObservableCollection<Product>(Task.Run(() => _productRepository.GetProductsAsync(_text)).Result);
                 foreach (var item in products)
                 {
+                    item.Link = item.Link.Remove(0,1);
                     item.Image = item.Image.Insert(0, "http:");
                 }
                 Products = products;
@@ -98,6 +109,10 @@ namespace DesktopClient.ViewModels
             if (product != null)
             {
                 var message = (Task.Run(() => _productRepository.SubscribeProductAsync(product)).Result);
+                if (message == "OK")
+                {
+                    GetSubscribeProduct();
+                }
             }
         }
 
@@ -105,5 +120,28 @@ namespace DesktopClient.ViewModels
         {
             return true;
         }
+
+        void UnSubscribeProduct(Product product)
+        {
+            if (product != null)
+            {
+                var message = (Task.Run(() => _productRepository.UnSubscribeProductsAsync(product)).Result);
+                if (message == "OK")
+                {
+                    GetSubscribeProduct();
+                }
+            }
+        }
+
+        bool CanUnSubscribeProduct(Product product)
+        {
+            return true;
+        }
+
+        void GetSubscribeProduct()
+        {
+            SubscribeProductCollection = new ObservableCollection<Product>(Task.Run(() => _productRepository.GetSubscribeProductsAsync()).Result);
+        }
+        
     }
 }

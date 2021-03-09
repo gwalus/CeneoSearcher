@@ -17,25 +17,26 @@ namespace DesktopClient.Services
         public async Task<ICollection<Product>> GetProductsAsync(string product)
         {
             var products = (await _client.GetFromJsonAsync(uri + $"getproductsbykeyword?keyword={product}", typeof(ICollection<Product>))) as ICollection<Product>;
-
             return products;
         }
 
         public async Task<string> SubscribeProductAsync(Product product)
         {
+            var message = await SendProductRequestAsync(product, $"{uri}subscribe");
+            return message;
+        }
 
-            
+        public async Task<string> SendProductRequestAsync(Product product, string url)
+        {
             var response = string.Empty;
-
             var jsonString = JsonSerializer.Serialize<Product>(product);
 
             HttpContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-           
 
             HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri($"{uri}subscribe"),
+                RequestUri = new Uri(url),
                 Content = content
             };
 
@@ -47,6 +48,17 @@ namespace DesktopClient.Services
 
             return response;
         }
-        
+
+        public async Task<ICollection<Product>> GetSubscribeProductsAsync()
+        {
+            var products = (await _client.GetFromJsonAsync(uri + $"getsubscribedproducts", typeof(ICollection<Product>))) as ICollection<Product>;
+            return products;
+        }
+
+        public async Task<string> UnSubscribeProductsAsync(Product product)
+        {
+            var message = await SendProductRequestAsync(product, $"{uri}unsubscribe");
+            return message;
+        }
     }
 }
