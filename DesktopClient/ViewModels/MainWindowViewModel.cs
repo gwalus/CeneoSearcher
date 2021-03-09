@@ -29,14 +29,14 @@ namespace DesktopClient.ViewModels
 
         public DelegateCommand SearchProductCommand { get; private set; }
         public DelegateCommand<string> GoToWebSiteProductCommand { get; private set; }
-        public DelegateCommand<string> SubscribeProductCommand { get; private set; }
+        public DelegateCommand<Product> SubscribeProductCommand { get; private set; }
 
         public MainWindowViewModel(IProductRepository productRepository)
         {
             _productRepository = productRepository;
             SearchProductCommand = new DelegateCommand(SearchProductAsync, CanSearchProduct);
             GoToWebSiteProductCommand = new DelegateCommand<string>(GoToWebSiteProduct, CanGoToWebSiteProduct);
-            SubscribeProductCommand = new DelegateCommand<string>(SubscribeProduct, CanSubscribeProduct);
+            SubscribeProductCommand = new DelegateCommand<Product>(SubscribeProduct, CanSubscribeProduct);
         }
 
         void SearchProductAsync()
@@ -93,12 +93,15 @@ namespace DesktopClient.ViewModels
             return true;
         }
 
-        void SubscribeProduct(string id)
+        void SubscribeProduct(Product product)
         {
-
+            if (product != null)
+            {
+                var message = (Task.Run(() => _productRepository.SubscribeProductAsync(product)).Result);
+            }
         }
 
-        bool CanSubscribeProduct(string id)
+        bool CanSubscribeProduct(Product product)
         {
             return true;
         }

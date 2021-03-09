@@ -90,15 +90,15 @@
                                     
                                     <Button 
                                        
-                                        Command="{Binding Path=DataContext.GoToWebSiteProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        CommandParameter="{Binding Link}"
+                                        Command="{Binding Path=DataContext.SubscribeProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        CommandParameter="{Binding .}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center"
                                         Style="{StaticResource MaterialDesignOutlinedButton}"
                                         Content="{materialDesign:PackIcon Heart}"
                                         Height="30px"/>
 
                                     <Button
-                                        Command="{Binding SubscribeProductCommand}"
+                                        Command="{Binding Path=DataContext.GoToWebSiteProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                         CommandParameter="{Binding Link}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center"
                                         Content="{materialDesign:PackIcon ArrowRight}"
