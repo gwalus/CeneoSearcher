@@ -30,7 +30,7 @@ namespace WebEngine.Services
 
                     Product element = new Product();
                     element.Link = link.SelectSingleNode("div/div/div/div/strong/a")
-                                        .GetAttributeValue("href", string.Empty);
+                                        .GetAttributeValue("href", string.Empty).Remove(0,1);
                     element.Name = link.SelectSingleNode("div/div/div/div/strong/a")
                                         .InnerText;
 
@@ -39,12 +39,12 @@ namespace WebEngine.Services
                             .Equals("/content/img/icons/pix-empty.png"))
                     {
                         element.Image = link.SelectSingleNode("div/a/img")
-                                            .GetAttributeValue("data-original", string.Empty);
+                                            .GetAttributeValue("data-original", string.Empty).Insert(0,"http:");
                     }
                     else
                     {
                         element.Image = link.SelectSingleNode("div/a/img")
-                                            .GetAttributeValue("src", string.Empty);
+                                            .GetAttributeValue("src", string.Empty).Insert(0, "http:");
                     }
 
                     try
@@ -59,7 +59,7 @@ namespace WebEngine.Services
                     }
                     catch (Exception)
                     {
-                        element.Rate = "Brak danych";
+                        element.Rate = string.Empty;
                     }
                     element.Price = link.SelectNodes("div/div")
                                         .Where(x => x.GetAttributeValue("class", string.Empty)
