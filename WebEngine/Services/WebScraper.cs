@@ -80,7 +80,11 @@ namespace WebEngine.Services
         }
 
         public double GetProductPrice(string link)
-        {            
+        {
+            if (link.Contains("Click"))
+            {
+                return 0;
+            }
             var htmlDoc = _web.Load("https://www.ceneo.pl/"+$"{link}");
             var node = htmlDoc.DocumentNode.SelectSingleNode($"//script");           
 
