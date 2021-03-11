@@ -70,16 +70,21 @@ namespace WebEngine.Services
 
                     _products.Add(element);
                 }
+                return _products;
             }
             catch (Exception)
             {
-
+                return _products;
             }
-            return _products;
+            
         }
 
         public double GetProductPrice(string link)
-        {            
+        {
+            if (link.Contains("Click"))
+            {
+                return 0;
+            }
             var htmlDoc = _web.Load("https://www.ceneo.pl/"+$"{link}");
             var node = htmlDoc.DocumentNode.SelectSingleNode($"//script");           
 
