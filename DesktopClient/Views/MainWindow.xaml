@@ -42,7 +42,7 @@
                         Content="{materialDesign:PackIcon Magnify}"
                         ToolTip="Szukaj"
                         Margin="10,0,0,0"
-                        Height="auto" />
+                        Height="auto" Cursor="Hand" />
             </Grid>
 
         </materialDesign:ColorZone>
@@ -104,6 +104,7 @@
                                         Content="{materialDesign:PackIcon ArrowRight}"
                                         Height="30px" 
                                         ToolTip="Idz do strony produktu" />
+
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -161,5 +162,9 @@
                 </ListBox>
             </TabItem>
         </TabControl>
+        <!--<materialDesign:Snackbar
+                x:Name="SnackbarFour"
+                MessageQueue="{materialDesign:MessageQueue}"/>-->
     </DockPanel>
+    
 </Window>

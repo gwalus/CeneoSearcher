@@ -6,11 +6,21 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using MaterialDesignThemes.Wpf;
+using System.Threading;
+using System.Timers;
 
 namespace DesktopClient.ViewModels
 {
     class MainWindowViewModel : BindableBase
     {
+        //private string _snackBarMessage;
+        //public string SnackBarMessage
+        //{
+        //    get { return _snackBarMessage; }
+        //    set { SetProperty(ref _snackBarMessage, value); }
+        //}
+
         private ObservableCollection<Product> _product;
         public ObservableCollection<Product> Products
         {
@@ -54,12 +64,9 @@ namespace DesktopClient.ViewModels
             if (!string.IsNullOrWhiteSpace(_text))
             {
                 var products = new ObservableCollection<Product>(Task.Run(() => _productRepository.GetProductsAsync(_text)).Result);
-                foreach (var item in products)
-                {
-                    item.Link = item.Link.Remove(0,1);
-                    item.Image = item.Image.Insert(0, "http:");
-                }
                 Products = products;
+
+                //SnackBarMessage = _text;
             }
         }
 
@@ -70,7 +77,7 @@ namespace DesktopClient.ViewModels
 
         void GoToWebSiteProduct(string id)
         {
-            var url = $"https://www.ceneo.pl{id}"; 
+            var url = $"https://www.ceneo.pl/{id}";
 
             try
             {
@@ -78,7 +85,6 @@ namespace DesktopClient.ViewModels
             }
             catch
             {
-                // hack because of this: https://github.com/dotnet/corefx/issues/10361
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     url = url.Replace("&", "^&");
@@ -142,6 +148,5 @@ namespace DesktopClient.ViewModels
         {
             SubscribeProductCollection = new ObservableCollection<Product>(Task.Run(() => _productRepository.GetSubscribeProductsAsync()).Result);
         }
-        
     }
 }

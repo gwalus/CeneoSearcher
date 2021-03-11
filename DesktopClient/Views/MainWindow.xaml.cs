@@ -10,6 +10,7 @@ namespace DesktopClient.Views
         public MainWindow()
         {
             InitializeComponent();
+            //SnackbarFour.MessageQueue.Enqueue("Wow, easy!");
         }
     }
 }
