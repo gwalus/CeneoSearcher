@@ -44,7 +44,7 @@ namespace WebEngine.Services
                     else
                     {
                         element.Image = link.SelectSingleNode("div/a/img")
-                                            .GetAttributeValue("src", string.Empty);
+                                            .GetAttributeValue("src", string.Empty).Insert(0, "http:");
                     }
 
                     try
