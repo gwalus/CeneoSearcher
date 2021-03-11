@@ -70,12 +70,13 @@ namespace WebEngine.Services
 
                     _products.Add(element);
                 }
+                return _products;
             }
             catch (Exception)
             {
-
+                return _products;
             }
-            return _products;
+            
         }
 
         public double GetProductPrice(string link)
