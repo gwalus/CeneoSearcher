@@ -9,7 +9,7 @@ using WebEngine.Data;
 using WebEngine.Interfaces;
 using WebEngine.Services;
 using WebEngine.Repositories;
-
+using WebEngine.Helpers;
 
 namespace WebEngine
 {
@@ -32,6 +32,7 @@ namespace WebEngine
             {
                 options.UseSqlite(_configuration.GetConnectionString("SqliteConnectionString"));
             });
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
