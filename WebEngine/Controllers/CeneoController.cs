@@ -51,7 +51,7 @@ namespace WebEngine.Controllers
         {
             var products = await _productRepository.GetSubscibedProductsAsync();
 
-            if (products != null) 
+            if (products != null)
                 return Ok(products);
 
             return BadRequest("Data cannot be retrieved");
@@ -62,8 +62,8 @@ namespace WebEngine.Controllers
         {
             if (await _productRepository.IfProductExists(productToAdd.Link))
                 return BadRequest("Product is already subscribed");
-            
-            if (await _productRepository.AddProduct(productToAdd)) 
+
+            if (await _productRepository.AddProduct(productToAdd))
                 return Ok("Product has been subscribed");
 
             return BadRequest();
@@ -72,10 +72,37 @@ namespace WebEngine.Controllers
         [HttpPost("/unsubscribe")]
         public async Task<ActionResult> UnsubscribeProduct(string link)
         {
-            if (await _productRepository.DeleteProduct(link)) 
+            if (await _productRepository.DeleteProduct(link))
                 return Ok("Product has been unsubscribed");
 
             return BadRequest("Something went wrong");
+        }
+
+        [HttpGet("/checkprice")]
+        public async Task<ActionResult<IList<Product>>> CheckProductsPrice()
+        {
+            var products = await _productRepository.GetSubscibedProductsAsync();
+
+            if (products == null) 
+                return BadRequest("Data not found");
+
+            int updatedProducts = 0;
+
+            foreach (var product in products)
+            {
+                double priceFromCeneo = _ceneoWebScraper.GetProductPrice(product.Link);
+                double currentPrice = double.Parse(product.Price);
+
+                if (priceFromCeneo < currentPrice)
+                {
+                    if (await _productRepository.UpdateProduct(product)) updatedProducts++;
+                }
+            }
+
+            if(updatedProducts > 0)
+                return Ok(await _productRepository.GetSubscibedProductsAsync());
+
+            return Ok("Product prices are up-to-date");
         }
     }
 }
