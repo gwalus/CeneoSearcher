@@ -47,24 +47,33 @@ namespace WebEngine.Controllers
         }
 
         [HttpGet("/getsubscribedproducts")]
-        public async Task<ICollection<Product>> GetProductsAsync()
+        public async Task<ActionResult<ICollection<Product>>> GetProductsAsync()
         {
-            return await _productRepository.GetSubscibedProductsAsync();
+            var products = await _productRepository.GetSubscibedProductsAsync();
+
+            if (products != null) 
+                return Ok(products);
+
+            return BadRequest("Data cannot be retrieved");
         }
 
         [HttpPost("/subscribe")]
         public async Task<ActionResult> SubscribeProduct(Product productToAdd)
         {
-            if (await _productRepository.AddProduct(productToAdd)) return Ok("Product has been subscribed");
+            if (await _productRepository.IfProductExists(productToAdd.Link))
+                return BadRequest("Product is already subscribed");
+            
+            if (await _productRepository.AddProduct(productToAdd)) 
+                return Ok("Product has been subscribed");
 
             return BadRequest();
         }
 
-
         [HttpPost("/unsubscribe")]
         public async Task<ActionResult> UnsubscribeProduct(string link)
         {
-            if (await _productRepository.DeleteProduct(link)) return Ok("Product has been unsubscribed");
+            if (await _productRepository.DeleteProduct(link)) 
+                return Ok("Product has been unsubscribed");
 
             return BadRequest("Something went wrong");
         }
