@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Shared.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebEngine.Interfaces;
@@ -10,19 +12,38 @@ namespace WebEngine.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly IWebScraper _ceneoWebScraper;
-
+        private readonly IMapper _mapper;
         private readonly string _baseUrl = "https://www.ceneo.pl/;szukaj-";
 
-        public CeneoController(IProductRepository productRepository, IWebScraper ceneoWebScraper)
+        public CeneoController(IProductRepository productRepository, IWebScraper ceneoWebScraper, IMapper mapper)
         {
             _productRepository = productRepository;
             _ceneoWebScraper = ceneoWebScraper;
+            _mapper = mapper;
         }
 
         [HttpGet("/getproductsbykeyword")]
-        public ActionResult<IList<Product>> GetProductsFromCeneo(string keyword)
+        public async Task<ActionResult<IList<ProductDto>>> GetProductsFromCeneo(string keyword)
         {
-            return _ceneoWebScraper.GetListOfProducts(_baseUrl + keyword);
+            var returnedProducts = new List<ProductDto>();
+
+            var ceneoProducts = _ceneoWebScraper.GetListOfProducts($"{_baseUrl}{keyword}");
+
+            if (ceneoProducts != null)
+            {
+                foreach (var product in ceneoProducts)
+                {
+                    var mappedProduct = _mapper.Map<Product, ProductDto>(product);
+
+                    mappedProduct.IsSubscribed = await _productRepository.IfProductExists(product.Link);
+
+                    returnedProducts.Add(mappedProduct);
+                }
+
+                return Ok(returnedProducts);
+            }
+
+            return NotFound("No products were found for the keyword");
         }
 
         [HttpGet("/getsubscribedproducts")]
