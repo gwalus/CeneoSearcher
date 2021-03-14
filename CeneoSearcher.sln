@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebEngine", "WebEngine\WebE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopClientTest", "DesktopClientTest\DesktopClientTest.csproj", "{9CE4A5C8-3D1B-4110-9D8F-C3F4471C45EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebEngine.Test", "WebEngine.Test\WebEngine.Test.csproj", "{F347F0F3-82DD-42AE-B7D1-9FA612CA080A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebEngine.Test", "WebEngine.Test\WebEngine.Test.csproj", "{F347F0F3-82DD-42AE-B7D1-9FA612CA080A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{D2B9295A-02E5-4B98-996A-69C8064A9D43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F347F0F3-82DD-42AE-B7D1-9FA612CA080A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F347F0F3-82DD-42AE-B7D1-9FA612CA080A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F347F0F3-82DD-42AE-B7D1-9FA612CA080A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2B9295A-02E5-4B98-996A-69C8064A9D43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2B9295A-02E5-4B98-996A-69C8064A9D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2B9295A-02E5-4B98-996A-69C8064A9D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2B9295A-02E5-4B98-996A-69C8064A9D43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

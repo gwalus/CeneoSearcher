@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Shared.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebEngine.Data;
 using WebEngine.Interfaces;
-using WebEngine.Model;
 
 namespace WebEngine.Repositories
 {
@@ -37,6 +37,20 @@ namespace WebEngine.Repositories
         public async Task<ICollection<Product>> GetSubscibedProductsAsync()
         {
             return await _context.Products.ToListAsync();
+        }
+
+        public async Task<bool> IfProductExists(string link)
+        {
+            return await _context.Products.AnyAsync(p => p.Link == link);
+        }
+
+        public async Task<bool> UpdateProduct(Product productToUpdate)
+        {
+            _context.Entry(await _context.Products.FirstOrDefaultAsync(p => p.Link == productToUpdate.Link)).CurrentValues.SetValues(productToUpdate);
+
+            if (await _context.SaveChangesAsync() > 0)
+                return true;
+            return false;
         }
     }
 }

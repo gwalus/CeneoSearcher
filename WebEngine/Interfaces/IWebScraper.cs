@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using WebEngine.Model;
+﻿using Shared.Model;
+using System.Collections.Generic;
 
 namespace WebEngine.Interfaces
 {
