@@ -10,5 +10,6 @@ namespace WebEngine.Interfaces
         Task<bool> AddProduct(Product productToAdd);
         Task<bool> DeleteProduct(string link);
         Task<bool> IfProductExists(string link);
+        Task<bool> UpdateProduct(Product productToUpdate);
     }
 }

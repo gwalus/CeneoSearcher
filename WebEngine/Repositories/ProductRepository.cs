@@ -43,5 +43,14 @@ namespace WebEngine.Repositories
         {
             return await _context.Products.AnyAsync(p => p.Link == link);
         }
+
+        public async Task<bool> UpdateProduct(Product productToUpdate)
+        {
+            _context.Entry(await _context.Products.FirstOrDefaultAsync(p => p.Link == productToUpdate.Link)).CurrentValues.SetValues(productToUpdate);
+
+            if (await _context.SaveChangesAsync() > 0)
+                return true;
+            return false;
+        }
     }
 }
