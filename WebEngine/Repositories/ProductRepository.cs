@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Shared.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebEngine.Data;
 using WebEngine.Interfaces;
-using WebEngine.Model;
 
 namespace WebEngine.Repositories
 {

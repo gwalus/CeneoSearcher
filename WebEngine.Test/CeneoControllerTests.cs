@@ -1,11 +1,10 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using Microsoft.EntityFrameworkCore;
+using Shared.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebEngine.Data;
-using WebEngine.Model;
 using WebEngine.Repositories;
 using Xunit;
 

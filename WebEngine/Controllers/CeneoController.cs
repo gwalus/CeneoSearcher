@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Dtos;
+using Shared.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebEngine.Interfaces;
-using WebEngine.Model;
 
 namespace WebEngine.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Shared.Dtos;
-using WebEngine.Model;
+using Shared.Model;
 
 namespace WebEngine.Helpers
 {
