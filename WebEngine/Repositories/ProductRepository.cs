@@ -38,5 +38,10 @@ namespace WebEngine.Repositories
         {
             return await _context.Products.ToListAsync();
         }
+
+        public async Task<bool> IfProductExists(string link)
+        {
+            return await _context.Products.AnyAsync(p => p.Link == link);
+        }
     }
 }
