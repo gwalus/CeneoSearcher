@@ -14,6 +14,7 @@
         Background="{DynamicResource MaterialDesignDarkBackground}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="MainWindow" Height="800" Width="1024">
+    
     <DockPanel Height="auto">
 
         <materialDesign:ColorZone
@@ -51,65 +52,14 @@
             Width="auto"
             x:Name="ProductsSearchView"
             Style="{StaticResource MaterialDesignNavigatilRailTabControl}" >
+            
             <TabItem 
                 Header="{materialDesign:PackIcon Kind=search, Size=24}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}"
                 ToolTip="Wynik wyszukiwania">
 
-                <ListBox ItemsSource="{Binding Products}" HorizontalContentAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="9*" />
-                                    <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="2*" />
-                                </Grid.ColumnDefinitions>
-
-                                <Image Grid.Column="0" MaxWidth="100px" Source="{Binding Image}" />
-
-                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Grid.Column="1"
-                                    FontSize="17px"
-                                    Text="{Binding Name}"/>
-
-                                    <TextBlock
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Text="{Binding Rate}" />
-                                </StackPanel>
-
-                                <TextBlock
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Grid.Column="2"
-                                    FontSize="17px"
-                                    Text="{Binding Price, StringFormat='{}{0} zł'}" />
-
-                                <StackPanel Grid.Column="3" Orientation="Horizontal">
-                                    <Button 
-                                        Command="{Binding Path=DataContext.SubscribeProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        CommandParameter="{Binding .}"
-                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        Style="{StaticResource MaterialDesignOutlinedButton}"
-                                        Content="{materialDesign:PackIcon HeartPlusOutline}"
-                                        Height="30px"
-                                        ToolTip="Subskrybuj" />
-
-                                    <Button
-                                        Command="{Binding Path=DataContext.GoToWebSiteProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        CommandParameter="{Binding Link}"
-                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        Content="{materialDesign:PackIcon ArrowRight}"
-                                        Height="30px" 
-                                        ToolTip="Idz do strony produktu" />
-
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <local:ProductList />
+                
             </TabItem>
 
             <TabItem
@@ -117,50 +67,10 @@
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}"
                 ToolTip="Subskrybowane produkty">
 
-                <ListBox ItemsSource="{Binding SubscribeProductCollection}" HorizontalContentAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="9*" />
-                                    <ColumnDefinition Width="3*" />
-                                    <ColumnDefinition Width="1*" />
-                                </Grid.ColumnDefinitions>
-
-                                <Image Grid.Column="0" MaxWidth="100px" Source="{Binding Image}" />
-
-                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock
-                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        Grid.Column="1"
-                                        FontSize="17px"
-                                        Text="{Binding Name}"/>
-                                    <TextBlock
-                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        Text="{Binding Rate}"/>
-                                </StackPanel>
-
-                                <TextBlock
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Grid.Column="2"
-                                    FontSize="17px"
-                                    Text="{Binding Price, StringFormat='{}{0} zł'}" />
-
-                                <Button 
-                                    Command="{Binding Path=DataContext.UnSubscribeProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                    CommandParameter="{Binding .}"
-                                    Grid.Column="3"
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Style="{StaticResource MaterialDesignOutlinedButton}"
-                                    Content="{materialDesign:PackIcon HeartMinusOutline}"
-                                    Height="30px"
-                                    ToolTip="Zrezygnuj z subskrypcji" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <local:SubscribeProductList />
+                
             </TabItem>
         </TabControl>
+        
     </DockPanel>
 </Window>

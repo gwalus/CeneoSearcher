@@ -1,4 +1,5 @@
 ﻿using DesktopClient.Interfaces;
+using Shared.Dtos;
 using Shared.Model;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,10 @@ namespace DesktopClient.Services
     {
         private static readonly HttpClient _client = new HttpClient();
         private static readonly string uri = "https://localhost:5001/";
-        public async Task<ICollection<Product>> GetProductsAsync(string product)
+        public async Task<ICollection<ProductDto>> GetProductsAsync(string product)
         {
             var Link = HttpUtility.UrlEncode(product);
-            var products = (await _client.GetFromJsonAsync(uri + $"getproductsbykeyword?keyword={Link}", typeof(ICollection<Product>))) as ICollection<Product>;
+            var products = (await _client.GetFromJsonAsync(uri + $"getproductsbykeyword?keyword={Link}", typeof(ICollection<ProductDto>))) as ICollection<ProductDto>;
             return products;
         }
 
@@ -76,9 +77,9 @@ namespace DesktopClient.Services
             return products;
         }
 
-        public async Task<string> UnSubscribeProductsAsync(Product product)
+        public async Task<string> UnSubscribeProductsAsync(string link)
         {
-            var Link = HttpUtility.UrlEncode(product.Link);
+            var Link = HttpUtility.UrlEncode(link);
             var message = await SendProductRequestAsync($"{uri}unsubscribe?Link={Link}");
             return message;
         }
