@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="DesktopClient.Views.SubscribeProductList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DesktopClient.Views"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignDarkForeground}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignDarkBackground}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ListBox ItemsSource="{Binding SubscribeProductCollection}" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="9*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0" MaxWidth="100px" Source="{Binding Image}" />
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Grid.Column="1"
+                                FontSize="17px"
+                                Text="{Binding Name}"/>
+                            <TextBlock
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Text="{Binding Rate}"/>
+                        </StackPanel>
+
+                        <TextBlock
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Grid.Column="2"
+                            FontSize="17px"
+                            Text="{Binding Price, StringFormat='{}{0} zł'}" />
+
+                        <Button 
+                            Command="{Binding Path=DataContext.UnSubscribeProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                            CommandParameter="{Binding .}"
+                            Grid.Column="3"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Content="{materialDesign:PackIcon HeartMinusOutline}"
+                            Height="30px"
+                            ToolTip="Zrezygnuj z subskrypcji" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>
