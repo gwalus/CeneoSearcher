@@ -5,14 +5,15 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Shared.Dtos;
 using Shared.Model;
 
 namespace DesktopClient.ViewModels
 {
     class MainWindowViewModel : BindableBase
     {
-        private ObservableCollection<Product> _product;
-        public ObservableCollection<Product> Products
+        private ObservableCollection<ProductDto> _product;
+        public ObservableCollection<ProductDto> Products
         {
             get { return _product; }
             set { SetProperty(ref _product, value); }
@@ -36,16 +37,16 @@ namespace DesktopClient.ViewModels
 
         public DelegateCommand SearchProductCommand { get; private set; }
         public DelegateCommand<string> GoToWebSiteProductCommand { get; private set; }
-        public DelegateCommand<Product> SubscribeProductCommand { get; private set; }
-        public DelegateCommand<Product> UnSubscribeProductCommand { get; private set; }
+        public DelegateCommand<ProductDto> SubscribeProductCommand { get; private set; }
+        public DelegateCommand<string> UnSubscribeProductCommand { get; private set; }
 
         public MainWindowViewModel(IProductRepository productRepository)
         {
             _productRepository = productRepository;
             SearchProductCommand = new DelegateCommand(SearchProductAsync, CanSearchProduct);
             GoToWebSiteProductCommand = new DelegateCommand<string>(GoToWebSiteProduct, CanGoToWebSiteProduct);
-            SubscribeProductCommand = new DelegateCommand<Product>(SubscribeProduct, CanSubscribeProduct);
-            UnSubscribeProductCommand = new DelegateCommand<Product>(UnSubscribeProduct, CanUnSubscribeProduct);
+            SubscribeProductCommand = new DelegateCommand<ProductDto>(SubscribeProduct, CanSubscribeProduct);
+            UnSubscribeProductCommand = new DelegateCommand<string>(UnSubscribeProduct, CanUnSubscribeProduct);
             GetSubscribeProduct();
         }
 
@@ -53,7 +54,7 @@ namespace DesktopClient.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(_text))
             {
-                var products = new ObservableCollection<Product>(Task.Run(() => _productRepository.GetProductsAsync(_text)).Result);
+                var products = new ObservableCollection<ProductDto>(Task.Run(() => _productRepository.GetProductsAsync(_text)).Result);
                 Products = products;
             }
         }
@@ -98,36 +99,47 @@ namespace DesktopClient.ViewModels
             return true;
         }
 
-        void SubscribeProduct(Product product)
+        void SubscribeProduct(ProductDto productDto)
         {
-            if (product != null)
+            if (productDto != null)
             {
-                var message = (Task.Run(() => _productRepository.SubscribeProductAsync(product)).Result);
+                Product product = new Product()
+                {
+                    Name = productDto.Name,
+                    Link = productDto.Link,
+                    Image = productDto.Image,
+                    Rate = productDto.Rate,
+                    Price = productDto.Price
+                };
+
+                var message = Task.Run(() => _productRepository.SubscribeProductAsync(product)).Result;
                 if (message == "OK")
                 {
+                    SearchProductAsync();
                     GetSubscribeProduct();
                 }
             }
         }
 
-        bool CanSubscribeProduct(Product product)
+        bool CanSubscribeProduct(ProductDto product)
         {
             return true;
         }
 
-        void UnSubscribeProduct(Product product)
+        void UnSubscribeProduct(string link)
         {
-            if (product != null)
+            if (!string.IsNullOrWhiteSpace(link))
             {
-                var message = (Task.Run(() => _productRepository.UnSubscribeProductsAsync(product)).Result);
+                var message = (Task.Run(() => _productRepository.UnSubscribeProductsAsync(link)).Result);
                 if (message == "OK")
                 {
+                    SearchProductAsync();
                     GetSubscribeProduct();
                 }
             }
         }
 
-        bool CanUnSubscribeProduct(Product product)
+        bool CanUnSubscribeProduct(string link)
         {
             return true;
         }

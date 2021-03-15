@@ -52,12 +52,14 @@
             Width="auto"
             x:Name="ProductsSearchView"
             Style="{StaticResource MaterialDesignNavigatilRailTabControl}" >
+            
             <TabItem 
                 Header="{materialDesign:PackIcon Kind=search, Size=24}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}"
                 ToolTip="Wynik wyszukiwania">
 
                 <local:ProductList />
+                
             </TabItem>
 
             <TabItem
@@ -66,7 +68,9 @@
                 ToolTip="Subskrybowane produkty">
 
                 <local:SubscribeProductList />
+                
             </TabItem>
         </TabControl>
+        
     </DockPanel>
 </Window>

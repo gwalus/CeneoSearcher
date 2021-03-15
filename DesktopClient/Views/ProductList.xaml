@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:DesktopClient.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:converter="clr-namespace:DesktopClient.Converters"
              TextElement.Foreground="{DynamicResource MaterialDesignDarkForeground}"
              TextElement.FontWeight="Regular"
              TextElement.FontSize="13"
@@ -14,6 +15,11 @@
              TextOptions.TextRenderingMode="Auto"
              Background="{DynamicResource MaterialDesignDarkBackground}"
              FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <UserControl.Resources>
+        <converter:InvertableBooleanToVisibilityConverter x:Key="InvertableBooleanToVisibilityConverter"></converter:InvertableBooleanToVisibilityConverter>
+    </UserControl.Resources>
+    
     <Grid>
         <ListBox ItemsSource="{Binding Products}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
@@ -48,11 +54,21 @@
 
                         <StackPanel Grid.Column="3" Orientation="Horizontal">
                             <Button 
+                                Visibility="{Binding IsSubscribed, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}"
                                 Command="{Binding Path=DataContext.SubscribeProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                 CommandParameter="{Binding .}"
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 Style="{StaticResource MaterialDesignOutlinedButton}"
                                 Content="{materialDesign:PackIcon HeartPlusOutline}"
+                                Height="30px"
+                                ToolTip="Subskrybuj" />
+                            
+                            <Button 
+                                Visibility="{Binding IsSubscribed, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Normal}"
+                                Command="{Binding Path=DataContext.UnSubscribeProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                CommandParameter="{Binding Link}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Content="{materialDesign:PackIcon HeartMinusOutline}"
                                 Height="30px"
                                 ToolTip="Subskrybuj" />
 
@@ -70,4 +86,5 @@
             </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
+    
 </UserControl>
