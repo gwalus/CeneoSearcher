@@ -1,5 +1,5 @@
 ﻿using DesktopClient.Interfaces;
-using DesktopClient.Model;
+using Shared.Model;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;

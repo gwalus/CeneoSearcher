@@ -1,26 +1,16 @@
 ﻿using DesktopClient.Interfaces;
-using DesktopClient.Model;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using MaterialDesignThemes.Wpf;
-using System.Threading;
-using System.Timers;
+using Shared.Model;
 
 namespace DesktopClient.ViewModels
 {
     class MainWindowViewModel : BindableBase
     {
-        //private string _snackBarMessage;
-        //public string SnackBarMessage
-        //{
-        //    get { return _snackBarMessage; }
-        //    set { SetProperty(ref _snackBarMessage, value); }
-        //}
-
         private ObservableCollection<Product> _product;
         public ObservableCollection<Product> Products
         {
@@ -65,8 +55,6 @@ namespace DesktopClient.ViewModels
             {
                 var products = new ObservableCollection<Product>(Task.Run(() => _productRepository.GetProductsAsync(_text)).Result);
                 Products = products;
-
-                //SnackBarMessage = _text;
             }
         }
 
