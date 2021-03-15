@@ -15,7 +15,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="MainWindow" Height="800" Width="1024">
     <DockPanel Height="auto">
-       
+
         <materialDesign:ColorZone
             DockPanel.Dock="Top"
             Background="#FF3A3A3A"
@@ -40,11 +40,11 @@
                 <Button Grid.Row="0" Grid.Column="1"
                         Command="{Binding SearchProductCommand}"
                         Content="{materialDesign:PackIcon Magnify}"
-                        ToolTip="Icon"
+                        ToolTip="Szukaj"
                         Margin="10,0,0,0"
-                        Height="auto" />
+                        Height="auto" Cursor="Hand" />
             </Grid>
-            
+
         </materialDesign:ColorZone>
 
         <TabControl
@@ -53,7 +53,8 @@
             Style="{StaticResource MaterialDesignNavigatilRailTabControl}" >
             <TabItem 
                 Header="{materialDesign:PackIcon Kind=search, Size=24}"
-                Style="{StaticResource MaterialDesignNavigationRailTabItem}">
+                Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                ToolTip="Wynik wyszukiwania">
 
                 <ListBox ItemsSource="{Binding Products}" HorizontalContentAlignment="Stretch">
                     <ListBox.ItemTemplate>
@@ -93,16 +94,18 @@
                                         HorizontalAlignment="Center" VerticalAlignment="Center"
                                         Style="{StaticResource MaterialDesignOutlinedButton}"
                                         Content="{materialDesign:PackIcon HeartPlusOutline}"
-                                        Height="30px"/>
+                                        Height="30px"
+                                        ToolTip="Subskrybuj" />
 
                                     <Button
                                         Command="{Binding Path=DataContext.GoToWebSiteProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                         CommandParameter="{Binding Link}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center"
                                         Content="{materialDesign:PackIcon ArrowRight}"
-                                        Height="30px" />
-                                </StackPanel>
+                                        Height="30px" 
+                                        ToolTip="Idz do strony produktu" />
 
+                                </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -111,7 +114,8 @@
 
             <TabItem
                 Header="{materialDesign:PackIcon Kind=Heart, Size=24}"
-                Style="{StaticResource MaterialDesignNavigationRailTabItem}">
+                Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                ToolTip="Subskrybowane produkty">
 
                 <ListBox ItemsSource="{Binding SubscribeProductCollection}" HorizontalContentAlignment="Stretch">
                     <ListBox.ItemTemplate>
@@ -128,14 +132,13 @@
 
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                     <TextBlock
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Grid.Column="1"
-                                    FontSize="17px"
-                                    Text="{Binding Name}"/>
-
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Grid.Column="1"
+                                        FontSize="17px"
+                                        Text="{Binding Name}"/>
                                     <TextBlock
-                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Text="{Binding Rate}" />
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Text="{Binding Rate}"/>
                                 </StackPanel>
 
                                 <TextBlock
@@ -151,13 +154,17 @@
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                     Style="{StaticResource MaterialDesignOutlinedButton}"
                                     Content="{materialDesign:PackIcon HeartMinusOutline}"
-                                    Height="30px"/>
-                                
+                                    Height="30px"
+                                    ToolTip="Zrezygnuj z subskrypcji" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </TabItem>
         </TabControl>
+        <!--<materialDesign:Snackbar
+                x:Name="SnackbarFour"
+                MessageQueue="{materialDesign:MessageQueue}"/>-->
     </DockPanel>
+    
 </Window>

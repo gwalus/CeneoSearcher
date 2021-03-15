@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace DesktopClient.Services
 {
@@ -16,7 +17,8 @@ namespace DesktopClient.Services
         private static readonly string uri = "https://localhost:5001/";
         public async Task<ICollection<Product>> GetProductsAsync(string product)
         {
-            var products = (await _client.GetFromJsonAsync(uri + $"getproductsbykeyword?keyword={product}", typeof(ICollection<Product>))) as ICollection<Product>;
+            var Link = HttpUtility.UrlEncode(product);
+            var products = (await _client.GetFromJsonAsync(uri + $"getproductsbykeyword?keyword={Link}", typeof(ICollection<Product>))) as ICollection<Product>;
             return products;
         }
 
@@ -49,6 +51,25 @@ namespace DesktopClient.Services
             return response;
         }
 
+        public async Task<string> SendProductRequestAsync(string url)
+        {
+            var response = string.Empty;
+
+            HttpRequestMessage request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(url)
+            };
+
+            HttpResponseMessage result = await _client.SendAsync(request);
+            if (result.IsSuccessStatusCode)
+            {
+                response = result.StatusCode.ToString();
+            }
+
+            return response;
+        }
+
         public async Task<ICollection<Product>> GetSubscribeProductsAsync()
         {
             var products = (await _client.GetFromJsonAsync(uri + $"getsubscribedproducts", typeof(ICollection<Product>))) as ICollection<Product>;
@@ -57,7 +78,8 @@ namespace DesktopClient.Services
 
         public async Task<string> UnSubscribeProductsAsync(Product product)
         {
-            var message = await SendProductRequestAsync(product, $"{uri}unsubscribe");
+            var Link = HttpUtility.UrlEncode(product.Link);
+            var message = await SendProductRequestAsync($"{uri}unsubscribe?Link={Link}");
             return message;
         }
     }
