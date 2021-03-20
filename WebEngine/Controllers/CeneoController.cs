@@ -8,6 +8,9 @@ using WebEngine.Interfaces;
 
 namespace WebEngine.Controllers
 {
+    /// <summary>
+    /// Ceneo controller class. Contains endpoints to work with ceneo.
+    /// </summary>
     public class CeneoController : BaseApiController
     {
         private readonly IProductRepository _productRepository;
@@ -22,6 +25,11 @@ namespace WebEngine.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Endpoint returns products from ceneo.
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns>List of productsdto.</returns>
         [HttpGet("/getproductsbykeyword")]
         public async Task<ActionResult<IList<ProductDto>>> GetProductsFromCeneo(string keyword)
         {
@@ -46,6 +54,10 @@ namespace WebEngine.Controllers
             return NotFound("No products were found for the keyword");
         }
 
+        /// <summary>
+        /// Endpoint returns subscribed products.
+        /// </summary>
+        /// <returns>List of products.</returns>
         [HttpGet("/getsubscribedproducts")]
         public async Task<ActionResult<ICollection<Product>>> GetProductsAsync()
         {
@@ -57,6 +69,11 @@ namespace WebEngine.Controllers
             return BadRequest("Data cannot be retrieved");
         }
 
+        /// <summary>
+        /// Endpoint to add product to be subscribed.
+        /// </summary>
+        /// <param name="productToAdd"></param>
+        /// <returns>ActionResult.</returns>
         [HttpPost("/subscribe")]
         public async Task<ActionResult> SubscribeProduct(Product productToAdd)
         {
@@ -69,6 +86,11 @@ namespace WebEngine.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Endpoint to unsubscribe a product.
+        /// </summary>
+        /// <param name="link"></param>
+        /// <returns>ActionResult.</returns>
         [HttpPost("/unsubscribe")]
         public async Task<ActionResult> UnsubscribeProduct(string link)
         {
@@ -78,6 +100,10 @@ namespace WebEngine.Controllers
             return BadRequest("Something went wrong");
         }
 
+        /// <summary>
+        /// Endpoint to check actual product price.
+        /// </summary>
+        /// <returns>ActionResult or subscribed products when price was changed.</returns>
         [HttpGet("/checkprice")]
         public async Task<ActionResult<IList<Product>>> CheckProductsPrice()
         {

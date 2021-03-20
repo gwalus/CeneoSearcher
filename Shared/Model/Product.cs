@@ -2,6 +2,9 @@
 
 namespace Shared.Model
 {
+    /// <summary>
+    /// Basic product model class
+    /// </summary>
     public class Product
     {
         public string Name { get; set; }

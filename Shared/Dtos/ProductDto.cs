@@ -1,5 +1,8 @@
 ﻿namespace Shared.Dtos
 {
+    /// <summary>
+    /// ProductDto class to map product model with subscribed property.
+    /// </summary>
     public class ProductDto
     {
         public string Name { get; set; }

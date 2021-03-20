@@ -7,6 +7,10 @@ using WebEngine.Interfaces;
 
 namespace WebEngine.Repositories
 {
+    /// <summary>
+    /// Product repository class contains methods to operation of products.
+    /// </summary>
+    /// <inheritdoc/>
     public class ProductRepository : IProductRepository
     {
         private ProductContext _context;
