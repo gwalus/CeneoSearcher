@@ -12,10 +12,28 @@ using System.Web;
 
 namespace DesktopClient.Services
 {
+    /// <summary>
+    /// Klasa serwisu zapytań do api.
+    /// </summary>
     public class ProductRepository : IProductRepository
     {
         private static readonly HttpClient _client = new HttpClient();
-        private static readonly string uri = "https://localhost:5001/";
+        private static string uri;
+
+        /// <summary>
+        /// Konstruktor wpisujący serwer uri do zmienej uri.
+        /// </summary>
+        /// <param name="serwerUri">uri typu string</param>
+        public ProductRepository(string serwerUri = "https://localhost:5001/")
+        {
+            uri = serwerUri;
+        }
+
+        /// <summary>
+        /// Zapytanie o produkty o podanej nazwie.
+        /// </summary>
+        /// <param name="product">Nazwa produktu typu string</param>
+        /// <returns>Kolekcja produktów</returns>
         public async Task<ICollection<ProductDto>> GetProductsAsync(string product)
         {
             var Link = HttpUtility.UrlEncode(product);
@@ -23,12 +41,23 @@ namespace DesktopClient.Services
             return products;
         }
 
+        /// <summary>
+        /// Zapytania aby subskrybować produkt.
+        /// </summary>
+        /// <param name="product">Produkt typu Product</param>
+        /// <returns>Odpowiedz z serwera typu wiadomość</returns>
         public async Task<string> SubscribeProductAsync(Product product)
         {
             var message = await SendProductRequestAsync(product, $"{uri}subscribe");
             return message;
         }
 
+        /// <summary>
+        /// Wysyłanie zapytania pod podany url z jsonem produktu.
+        /// </summary>
+        /// <param name="product">Produkt typu Product</param>
+        /// <param name="url">url typu string</param>
+        /// <returns>Odpowiedz z serwera typu wiadomość</returns>
         public async Task<string> SendProductRequestAsync(Product product, string url)
         {
             var response = string.Empty;
@@ -52,6 +81,11 @@ namespace DesktopClient.Services
             return response;
         }
 
+        /// <summary>
+        /// Wysyłanie prostego zapytania url.
+        /// </summary>
+        /// <param name="url">Url zapytania typu string</param>
+        /// <returns>Odpowiedz z serwera typu wiadomość</returns>
         public async Task<string> SendProductRequestAsync(string url)
         {
             var response = string.Empty;
@@ -71,12 +105,21 @@ namespace DesktopClient.Services
             return response;
         }
 
+        /// <summary>
+        /// Zapytanie o subskrybowane produkty.
+        /// </summary>
+        /// <returns>Kolekcja subskrybowanych produktów</returns>
         public async Task<ICollection<Product>> GetSubscribeProductsAsync()
         {
             var products = (await _client.GetFromJsonAsync(uri + $"getsubscribedproducts", typeof(ICollection<Product>))) as ICollection<Product>;
             return products;
         }
 
+        /// <summary>
+        /// Zapytania aby znieść subskrybcję produktu.
+        /// </summary>
+        /// <param name="link">Id produktu typu string</param>
+        /// <returns>Odpowiedz z serwera typu wiadomość</returns>
         public async Task<string> UnSubscribeProductsAsync(string link)
         {
             var Link = HttpUtility.UrlEncode(link);

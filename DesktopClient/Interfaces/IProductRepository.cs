@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DesktopClient.Interfaces
 {
+    /// <summary>
+    /// Interface dla serwisu api.
+    /// </summary>
     public interface IProductRepository
     {
         Task<string> SendProductRequestAsync(Product product, string url);
