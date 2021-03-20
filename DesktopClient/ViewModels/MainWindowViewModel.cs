@@ -10,8 +10,13 @@ using Shared.Model;
 
 namespace DesktopClient.ViewModels
 {
+    /// <summary>
+    /// Klasa główna modelu widoku.
+    /// </summary>
     class MainWindowViewModel : BindableBase
     {
+
+        /// <value>Kolekcja produktów wyszukanych.</value>
         private ObservableCollection<ProductDto> _product;
         public ObservableCollection<ProductDto> Products
         {
@@ -19,6 +24,7 @@ namespace DesktopClient.ViewModels
             set { SetProperty(ref _product, value); }
         }
 
+        /// <value>Kolekcja produktów subskrybowanych.</value>
         private ObservableCollection<Product> _subscribeProductCollection;
         public ObservableCollection<Product> SubscribeProductCollection
         {
@@ -26,6 +32,7 @@ namespace DesktopClient.ViewModels
             set { SetProperty(ref _subscribeProductCollection, value); }
         }
 
+        /// <value>Tekst z pola szukania.</value>
         private string _text;
         public string Text
         {
@@ -35,11 +42,16 @@ namespace DesktopClient.ViewModels
 
         readonly IProductRepository _productRepository;
 
+        // Definicja własciwości DelegateCommand dla przycisków
         public DelegateCommand SearchProductCommand { get; private set; }
         public DelegateCommand<string> GoToWebSiteProductCommand { get; private set; }
         public DelegateCommand<ProductDto> SubscribeProductCommand { get; private set; }
         public DelegateCommand<string> UnSubscribeProductCommand { get; private set; }
 
+        /// <summary>
+        /// Konstruktor przypisujący wstrzykniete zależności oraz tworzący instancję dla DelegateCommand.
+        /// </summary>
+        /// <param name="productRepository">Wstrzykniete produkt repozytory</param>
         public MainWindowViewModel(IProductRepository productRepository)
         {
             _productRepository = productRepository;
@@ -50,6 +62,9 @@ namespace DesktopClient.ViewModels
             GetSubscribeProduct();
         }
 
+        /// <summary>
+        /// Metoda wykonywana podczas wywołania komendy SearchProductCommand, pobierająca kolekcję produktów po nazwie zapisanej w _text i zapisującą w zmienej Produkts.
+        /// </summary>
         void SearchProductAsync()
         {
             if (!string.IsNullOrWhiteSpace(_text))
@@ -59,11 +74,19 @@ namespace DesktopClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Metoda sprawdzająca, czy można wykonać metodę SearchProductAsync.
+        /// </summary>
+        /// <returns>Wartość bool</returns>
         bool CanSearchProduct()
         {
             return true;
         }
 
+        /// <summary>
+        /// Metoda wykonywana podczas wywołania komendy GoToWebSiteProductCommand, otwierająca stronę produktu.
+        /// </summary>
+        /// <param name="id">id typu string</param>
         void GoToWebSiteProduct(string id)
         {
             var url = $"https://www.ceneo.pl/{id}";
@@ -94,11 +117,20 @@ namespace DesktopClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Metoda sprawdzająca, czy można wykonać metodę GoToWebSiteProduct
+        /// </summary>
+        /// <param name="id">Parametr typu string</param>
+        /// <returns>Wartość bool</returns>
         bool CanGoToWebSiteProduct(string id)
         {
             return true;
         }
 
+        /// <summary>
+        /// Metoda wykonywana podczas wywołania komendy SubscribeProductCommand, wysyłająca zapytanie z produktem do za subskrybowania.
+        /// </summary>
+        /// <param name="productDto">productDto typu ProductDto</param>
         void SubscribeProduct(ProductDto productDto)
         {
             if (productDto != null)
@@ -121,11 +153,20 @@ namespace DesktopClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Metoda sprawdzająca, czy można wykonać metodę SubscribeProduct.
+        /// </summary>
+        /// <param name="product">Parametr typu ProductDto</param>
+        /// <returns>Wartość bool</returns>
         bool CanSubscribeProduct(ProductDto product)
         {
             return true;
         }
 
+        /// <summary>
+        /// Metoda wykonywana podczas wywołania komendy UnSubscribeProductCommand, wysyłająca zapytanie z id produktu do zniesienia subskrybcji.
+        /// </summary>
+        /// <param name="link"></param>
         void UnSubscribeProduct(string link)
         {
             if (!string.IsNullOrWhiteSpace(link))
@@ -139,11 +180,19 @@ namespace DesktopClient.ViewModels
             }
         }
 
+        /// <summary>
+        /// Metoda sprawdzająca, czy można wykonać metodę UnSubscribeProduct.
+        /// </summary>
+        /// <param name="link">Parametr typu string</param>
+        /// <returns>Wartość bool</returns>
         bool CanUnSubscribeProduct(string link)
         {
             return true;
         }
 
+        /// <summary>
+        /// Metoda pobierająca i wpisująca kolekcję zasubskrybowanych produków do pola SubscribeProductCollection.
+        /// </summary>
         void GetSubscribeProduct()
         {
             SubscribeProductCollection = new ObservableCollection<Product>(Task.Run(() => _productRepository.GetSubscribeProductsAsync()).Result);
