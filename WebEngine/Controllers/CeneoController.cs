@@ -30,7 +30,7 @@ namespace WebEngine.Controllers
         /// </summary>
         /// <param name="keyword"></param>
         /// <returns>List of productsdto.</returns>
-        [HttpGet("/getproductsbykeyword")]
+        [HttpGet("products/search/{keyword}")]
         public async Task<ActionResult<IList<ProductDto>>> GetProductsFromCeneo(string keyword)
         {
             var returnedProducts = new List<ProductDto>();
@@ -58,7 +58,7 @@ namespace WebEngine.Controllers
         /// Endpoint returns subscribed products.
         /// </summary>
         /// <returns>List of products.</returns>
-        [HttpGet("/getsubscribedproducts")]
+        [HttpGet("products")]
         public async Task<ActionResult<ICollection<Product>>> GetProductsAsync()
         {
             var products = await _productRepository.GetSubscibedProductsAsync();
@@ -74,7 +74,7 @@ namespace WebEngine.Controllers
         /// </summary>
         /// <param name="productToAdd"></param>
         /// <returns>ActionResult.</returns>
-        [HttpPost("/subscribe")]
+        [HttpPost("product/subscribe")]
         public async Task<ActionResult> SubscribeProduct(Product productToAdd)
         {
             if (await _productRepository.IfProductExists(productToAdd.Link))
@@ -91,7 +91,7 @@ namespace WebEngine.Controllers
         /// </summary>
         /// <param name="link"></param>
         /// <returns>ActionResult.</returns>
-        [HttpPost("/unsubscribe")]
+        [HttpPost("product/unsubscribe")]
         public async Task<ActionResult> UnsubscribeProduct(string link)
         {
             if (await _productRepository.DeleteProduct(link))
@@ -104,7 +104,7 @@ namespace WebEngine.Controllers
         /// Endpoint to check actual product price.
         /// </summary>
         /// <returns>ActionResult or subscribed products when price was changed.</returns>
-        [HttpGet("/checkprice")]
+        [HttpGet("product/checkprice")]
         public async Task<ActionResult<IList<Product>>> CheckProductsPrice()
         {
             var products = await _productRepository.GetSubscibedProductsAsync();
