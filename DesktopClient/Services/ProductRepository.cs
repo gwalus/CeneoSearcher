@@ -37,7 +37,7 @@ namespace DesktopClient.Services
         public async Task<ICollection<ProductDto>> GetProductsAsync(string product)
         {
             var Link = HttpUtility.UrlEncode(product);
-            var products = (await _client.GetFromJsonAsync(uri + $"getproductsbykeyword?keyword={Link}", typeof(ICollection<ProductDto>))) as ICollection<ProductDto>;
+            var products = (await _client.GetFromJsonAsync(uri + $"api/Ceneo/products/search/{Link}", typeof(ICollection<ProductDto>))) as ICollection<ProductDto>;
             return products;
         }
 
@@ -48,7 +48,7 @@ namespace DesktopClient.Services
         /// <returns>Odpowiedz z serwera typu wiadomość</returns>
         public async Task<string> SubscribeProductAsync(Product product)
         {
-            var message = await SendProductRequestAsync(product, $"{uri}subscribe");
+            var message = await SendProductRequestAsync(product, $"{uri}api/Ceneo/product/subscribe");
             return message;
         }
 
@@ -111,7 +111,7 @@ namespace DesktopClient.Services
         /// <returns>Kolekcja subskrybowanych produktów</returns>
         public async Task<ICollection<Product>> GetSubscribeProductsAsync()
         {
-            var products = (await _client.GetFromJsonAsync(uri + $"getsubscribedproducts", typeof(ICollection<Product>))) as ICollection<Product>;
+            var products = (await _client.GetFromJsonAsync(uri + $"api/Ceneo/products", typeof(ICollection<Product>))) as ICollection<Product>;
             return products;
         }
 
@@ -123,7 +123,7 @@ namespace DesktopClient.Services
         public async Task<string> UnSubscribeProductsAsync(string link)
         {
             var Link = HttpUtility.UrlEncode(link);
-            var message = await SendProductRequestAsync($"{uri}unsubscribe?Link={Link}");
+            var message = await SendProductRequestAsync($"{uri}api/Ceneo/product/unsubscribe?Link={Link}");
             return message;
         }
     }
