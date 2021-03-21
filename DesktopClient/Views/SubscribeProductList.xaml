@@ -14,7 +14,20 @@
              Background="{DynamicResource MaterialDesignDarkBackground}"
              FontFamily="{DynamicResource MaterialDesignFont}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+
+    <DockPanel>
+        <!--<Button
+            DockPanel.Dock="Bottom"
+            
+            Style="{StaticResource MaterialDesignRaisedLightButton}"
+            Command="{Binding UpdateProductCommand}"
+            ToolTip="Odśwież">
+            <materialDesign:PackIcon
+                        Kind="Reload" />
+        </Button>-->
+   
+        
+        <Grid>
         <ListBox ItemsSource="{Binding SubscribeProductCollection}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -59,4 +72,6 @@
             </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
+    </DockPanel>
+
 </UserControl>
