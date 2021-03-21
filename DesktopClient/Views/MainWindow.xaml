@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopClient.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fa="http://schemas.fontawesome.io/icons/" 
+        xmlns:converter="clr-namespace:DesktopClient.Converters"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignDarkForeground}"
         TextElement.FontWeight="Regular"
@@ -13,7 +15,11 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignDarkBackground}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="MainWindow" Height="800" Width="1024">
+        Title="Ceneo Searcher" Height="800" Width="1024">
+
+    <Window.Resources>
+        <converter:InvertableBooleanToVisibilityConverter x:Key="InvertableBooleanToVisibilityConverter"></converter:InvertableBooleanToVisibilityConverter>
+    </Window.Resources>
     
     <DockPanel Height="auto">
 
@@ -35,12 +41,12 @@
                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
                         VerticalAlignment="Top"
                         AcceptsReturn="True"
-                        materialDesign:HintAssist.Hint="Search" 
+                        materialDesign:HintAssist.Hint="Szukaj" 
                         Cursor="IBeam" 
                         Height="auto"/>
 
-              
-                    <Button 
+
+                <Button 
                         Grid.Row="0" Grid.Column="1"
                         Command="{Binding SearchProductCommand}"
                         Content="{materialDesign:PackIcon Magnify}"
@@ -49,18 +55,21 @@
                         Width="auto"
                         Height="auto" Cursor="Hand" />
 
-                    <Button
-                        Grid.Row="0" Grid.Column="2"
-                        Style="{StaticResource MaterialDesignOutlinedButton}"
-                        Command="{Binding UpdateProductCommand}"
-                        Content="{materialDesign:PackIcon Reload}"
-                        ToolTip="Odśwież"
-                        Margin="10,0,0,0"
-                        Height="auto"
-                        Width="auto"
-                        Cursor="Hand" />
-            
-                
+                <Button
+                    Grid.Row="0" Grid.Column="2"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Command="{Binding UpdateProductCommand}"
+                    ToolTip="Aktualizuj"
+                    Margin="10,0,0,0"
+                    Height="auto"
+                    Width="auto"
+                    Cursor="Hand" >
+
+                    <StackPanel>
+                        <materialDesign:PackIcon Kind="CloudDownloadOutline"  Visibility="{Binding LoadButton, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Inverted}" />
+                        <fa:ImageAwesome Visibility="{Binding LoadButton, Converter={StaticResource InvertableBooleanToVisibilityConverter}, ConverterParameter=Normal}" Icon="Refresh" Spin="{Binding LoadButton, Mode=TwoWay}" Width="15px"/>
+                    </StackPanel>
+                </Button>
             </Grid>
 
         </materialDesign:ColorZone>
@@ -69,14 +78,14 @@
             Width="auto"
             x:Name="ProductsSearchView"
             Style="{StaticResource MaterialDesignNavigatilRailTabControl}" >
-            
+
             <TabItem 
                 Header="{materialDesign:PackIcon Kind=search, Size=24}"
                 Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                ToolTip="Wynik wyszukiwania">
+                ToolTip="Wynik wyszukiwania" Cursor="Hand">
 
                 <local:ProductList />
-                
+
             </TabItem>
 
             <TabItem
@@ -85,9 +94,9 @@
                 ToolTip="Subskrybowane produkty">
 
                 <local:SubscribeProductList />
-                
+
             </TabItem>
         </TabControl>
-        
+
     </DockPanel>
 </Window>

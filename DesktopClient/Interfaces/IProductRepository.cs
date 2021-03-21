@@ -16,5 +16,6 @@ namespace DesktopClient.Interfaces
         Task<string> SubscribeProductAsync(Product product);
         Task<ICollection<Product>> GetSubscribeProductsAsync();
         Task<string> UnSubscribeProductsAsync(string link);
+        Task<ICollection<Product>> UpdateProductsAsync();
     }
 }

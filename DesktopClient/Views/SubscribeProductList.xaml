@@ -15,50 +15,38 @@
              FontFamily="{DynamicResource MaterialDesignFont}"
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <DockPanel>
-        <!--<Button
-            DockPanel.Dock="Bottom"
-            
-            Style="{StaticResource MaterialDesignRaisedLightButton}"
-            Command="{Binding UpdateProductCommand}"
-            ToolTip="Odśwież">
-            <materialDesign:PackIcon
-                        Kind="Reload" />
-        </Button>-->
-   
-        
         <Grid>
-        <ListBox ItemsSource="{Binding SubscribeProductCollection}" HorizontalContentAlignment="Stretch">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="9*" />
-                            <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
+            <ListBox ItemsSource="{Binding SubscribeProductCollection}" HorizontalContentAlignment="Stretch">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="9*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
 
-                        <Image Grid.Column="0" MaxWidth="100px" Source="{Binding Image}" />
+                            <Image Grid.Column="0" MaxWidth="100px" Source="{Binding Image}" />
 
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 Grid.Column="1"
                                 FontSize="17px"
                                 Text="{Binding Name}"/>
-                            <TextBlock
+                                <TextBlock
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 Text="{Binding Rate}"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <TextBlock
+                            <TextBlock
                             HorizontalAlignment="Center" VerticalAlignment="Center"
                             Grid.Column="2"
                             FontSize="17px"
                             Text="{Binding Price, StringFormat='{}{0} zł'}" />
 
-                        <Button 
+                            <Button 
                             Command="{Binding Path=DataContext.UnSubscribeProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                             CommandParameter="{Binding Link}"
                             Grid.Column="3"
@@ -67,11 +55,9 @@
                             Content="{materialDesign:PackIcon HeartMinusOutline}"
                             Height="30px"
                             ToolTip="Zrezygnuj z subskrypcji" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-    </Grid>
-    </DockPanel>
-
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
 </UserControl>
