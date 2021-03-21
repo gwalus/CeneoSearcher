@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Shared.Dtos;
 using Shared.Model;
 using System.Linq;
+using System.Windows;
 
 namespace DesktopClient.ViewModels
 {
@@ -16,6 +17,13 @@ namespace DesktopClient.ViewModels
     /// </summary>
     class MainWindowViewModel : BindableBase
     {
+        /// <value>bool ładowania produktów.</value>
+        private bool _loadButton;
+        public bool LoadButton
+        {
+            get { return _loadButton; }
+            set { SetProperty(ref _loadButton, value); }
+        }
 
         /// <value>Kolekcja produktów wyszukanych.</value>
         private ObservableCollection<ProductDto> _product;
@@ -62,17 +70,18 @@ namespace DesktopClient.ViewModels
             SubscribeProductCommand = new DelegateCommand<ProductDto>(SubscribeProduct, CanSubscribeProduct);
             UnSubscribeProductCommand = new DelegateCommand<string>(UnSubscribeProduct, CanUnSubscribeProduct);
             UpdateProductCommand = new DelegateCommand(UpdateProduct, CanUpdateProduct);
+            LoadButton = false;
             GetSubscribeProduct();
         }
 
         /// <summary>
         /// Metoda wykonywana podczas wywołania komendy SearchProductCommand, pobierająca kolekcję produktów po nazwie zapisanej w _text i zapisującą w zmienej Produkts.
         /// </summary>
-        void SearchProductAsync()
+        async void SearchProductAsync()
         {
             if (!string.IsNullOrWhiteSpace(_text))
             {
-                var products = new ObservableCollection<ProductDto>(Task.Run(() => _productRepository.GetProductsAsync(_text)).Result);
+                var products = new ObservableCollection<ProductDto>(await Task.Run(() => _productRepository.GetProductsAsync(_text)));
                 Products = products;
             }
         }
@@ -134,7 +143,7 @@ namespace DesktopClient.ViewModels
         /// Metoda wykonywana podczas wywołania komendy SubscribeProductCommand, wysyłająca zapytanie z produktem do za subskrybowania.
         /// </summary>
         /// <param name="productDto">productDto typu ProductDto</param>
-        void SubscribeProduct(ProductDto productDto)
+        async void SubscribeProduct(ProductDto productDto)
         {
             if (productDto != null)
             {
@@ -147,7 +156,7 @@ namespace DesktopClient.ViewModels
                     Price = productDto.Price
                 };
 
-                var message = Task.Run(() => _productRepository.SubscribeProductAsync(product)).Result;
+                var message = await Task.Run(() => _productRepository.SubscribeProductAsync(product));
                 if (message == "OK")
                 {
                     Products.FirstOrDefault(p => p == productDto).IsSubscribed = true;
@@ -171,21 +180,23 @@ namespace DesktopClient.ViewModels
         /// Metoda wykonywana podczas wywołania komendy UnSubscribeProductCommand, wysyłająca zapytanie z id produktu do zniesienia subskrybcji.
         /// </summary>
         /// <param name="link"></param>
-        void UnSubscribeProduct(string link)
+        async void UnSubscribeProduct(string link)
         {
             if (!string.IsNullOrWhiteSpace(link))
             {
-                var message = (Task.Run(() => _productRepository.UnSubscribeProductsAsync(link)).Result);
+                var message = await Task.Run(() => _productRepository.UnSubscribeProductsAsync(link));
                 if (message == "OK")
                 {
-                    var p = Products.FirstOrDefault(p => p.Link == link);
-                    if (p != null)
+                    if (Products != null)
                     {
-                        p.IsSubscribed = false;
-                        Products = new ObservableCollection<ProductDto>(Products);
+                        var p = Products.FirstOrDefault(p => p.Link == link);
+                        if (p != null)
+                        {
+                            p.IsSubscribed = false;
+                            Products = new ObservableCollection<ProductDto>(Products);
+                        }
                     }
                     SubscribeProductCollection.Remove(SubscribeProductCollection.FirstOrDefault(p => p.Link == link));
-
                 }
             }
         }
@@ -203,18 +214,29 @@ namespace DesktopClient.ViewModels
         /// <summary>
         /// Metoda pobierająca i wpisująca kolekcję zasubskrybowanych produków do pola SubscribeProductCollection.
         /// </summary>
-        void GetSubscribeProduct()
+        async void GetSubscribeProduct()
         {
-            SubscribeProductCollection = new ObservableCollection<Product>(Task.Run(() => _productRepository.GetSubscribeProductsAsync()).Result);
+            SubscribeProductCollection = new ObservableCollection<Product>(await Task.Run(() => _productRepository.GetSubscribeProductsAsync()));
         }
 
-        void UpdateProduct()
-        { 
+        /// <summary>
+        /// Metoda aktualizujaca baze danych.
+        /// </summary>
+        async void UpdateProduct()
+        {
+            LoadButton = true;
+            var products = await Task.Run(() => _productRepository.UpdateProductsAsync());
+            if (products != null) SubscribeProductCollection = new ObservableCollection<Product>(products);
+            LoadButton = false;
         }
+
+        /// <summary>
+        /// Metoda sprawdzająca, czy można wykonać metodę UpdateProduct.
+        /// </summary>
+        /// <returns>Wartość bool</returns>
         bool CanUpdateProduct() 
         {
             return true;
         }
-
     }
 }

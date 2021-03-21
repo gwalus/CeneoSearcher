@@ -126,5 +126,24 @@ namespace DesktopClient.Services
             var message = await SendProductRequestAsync($"{uri}api/Ceneo/product/unsubscribe?Link={Link}");
             return message;
         }
+
+        /// <summary>
+        /// Zapytanie sprawdzające cene produktów.
+        /// </summary>
+        /// <returns>Kolekcja subskrybowanych produktów</returns>
+        public async Task<ICollection<Product>> UpdateProductsAsync()
+        {
+            //var message = await SendProductRequestAsync($"{uri}api/Ceneo/product/checkprice");
+            try
+            {
+                var products = (await _client.GetFromJsonAsync($"{uri}api/Ceneo/product/checkprice", typeof(ICollection<Product>))) as ICollection<Product>;
+                return products;
+            }
+            catch (Exception)
+            {
+                return null;
+                throw;
+            }  
+        }
     }
 }
