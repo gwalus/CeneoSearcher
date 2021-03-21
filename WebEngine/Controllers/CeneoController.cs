@@ -119,8 +119,9 @@ namespace WebEngine.Controllers
                 double priceFromCeneo = _ceneoWebScraper.GetProductPrice(product.Link);
                 double currentPrice = double.Parse(product.Price);
 
-                if (priceFromCeneo < currentPrice)
+                if (priceFromCeneo != currentPrice && priceFromCeneo != 0)
                 {
+                    product.Price = priceFromCeneo.ToString();
                     if (await _productRepository.UpdateProduct(product)) updatedProducts++;
                 }
             }
