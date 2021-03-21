@@ -9,6 +9,7 @@ using WebEngine.Model;
 
 namespace WebEngine.Services
 {
+  
     public class WebScraper : IWebScraper
     {
         private readonly HtmlWeb _web;
@@ -18,6 +19,11 @@ namespace WebEngine.Services
             _web = new HtmlWeb();
             _products = new List<Product>();
         }
+        /// <summary>
+        /// Method that allow us to scrap the information from the page 
+        /// <paramref name="html">Link to list of products </paramref>
+        /// </summary>
+        /// <returns>List of Products</returns>
         public List<Product> GetListOfProducts(string html)
         {
             var htmlDoc = _web.Load(html);
@@ -79,7 +85,11 @@ namespace WebEngine.Services
             }
             
         }
-
+        /// <summary>
+        /// This method enter the link from the parameter and take the lowest price of the product if possible
+        /// </summary>
+        /// <param name="link">Link to the specified product</param>
+        /// <returns>Single product price</returns>
         public double GetProductPrice(string link)
         {
             if (link.Contains("Click"))

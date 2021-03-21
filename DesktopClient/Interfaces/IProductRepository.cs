@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DesktopClient.Interfaces
 {
     /// <summary>
-    /// Interface dla serwisu api.
+    /// Interface for the api service.
     /// </summary>
     public interface IProductRepository
     {

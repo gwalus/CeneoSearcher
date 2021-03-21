@@ -13,7 +13,7 @@ using System.Web;
 namespace DesktopClient.Services
 {
     /// <summary>
-    /// Klasa serwisu zapytań do api.
+    /// The service class of the queries to the api.
     /// </summary>
     public class ProductRepository : IProductRepository
     {
@@ -21,18 +21,18 @@ namespace DesktopClient.Services
         private static string uri;
 
         /// <summary>
-        /// Konstruktor wpisujący serwer uri do zmienej uri.
+        /// Constructor that puts a uri server into the uri variable..
         /// </summary>
-        /// <param name="serwerUri">uri typu string</param>
+        /// <param name="serwerUri">uri as string</param>
         public ProductRepository(string serwerUri = "https://localhost:5001/")
         {
             uri = serwerUri;
         }
 
         /// <summary>
-        /// Zapytanie o produkty o podanej nazwie.
+        /// Query for products with a given name.
         /// </summary>
-        /// <param name="product">Nazwa produktu typu string</param>
+        /// <param name="product">Name of product as string</param>
         /// <returns>Kolekcja produktów</returns>
         public async Task<ICollection<ProductDto>> GetProductsAsync(string product)
         {
@@ -42,10 +42,10 @@ namespace DesktopClient.Services
         }
 
         /// <summary>
-        /// Zapytania aby subskrybować produkt.
+        /// Query for item subscribing.
         /// </summary>
-        /// <param name="product">Produkt typu Product</param>
-        /// <returns>Odpowiedz z serwera typu wiadomość</returns>
+        /// <param name="product">Product</param>
+        /// <returns>Feedback from server</returns>
         public async Task<string> SubscribeProductAsync(Product product)
         {
             var message = await SendProductRequestAsync(product, $"{uri}api/Ceneo/product/subscribe");
@@ -53,11 +53,11 @@ namespace DesktopClient.Services
         }
 
         /// <summary>
-        /// Wysyłanie zapytania pod podany url z jsonem produktu.
+        /// Sending a query to the given url with product json.
         /// </summary>
-        /// <param name="product">Produkt typu Product</param>
-        /// <param name="url">url typu string</param>
-        /// <returns>Odpowiedz z serwera typu wiadomość</returns>
+        /// <param name="product">Product</param>
+        /// <param name="url">url as string</param>
+        /// <returns>Feedback from the server</returns>
         public async Task<string> SendProductRequestAsync(Product product, string url)
         {
             var response = string.Empty;
@@ -82,10 +82,10 @@ namespace DesktopClient.Services
         }
 
         /// <summary>
-        /// Wysyłanie prostego zapytania url.
+        /// Url request
         /// </summary>
-        /// <param name="url">Url zapytania typu string</param>
-        /// <returns>Odpowiedz z serwera typu wiadomość</returns>
+        /// <param name="url">Url for string queries</param>
+        /// <returns>Feedback from the server</returns>
         public async Task<string> SendProductRequestAsync(string url)
         {
             var response = string.Empty;
@@ -106,9 +106,9 @@ namespace DesktopClient.Services
         }
 
         /// <summary>
-        /// Zapytanie o subskrybowane produkty.
+        /// Request for subscribed products.
         /// </summary>
-        /// <returns>Kolekcja subskrybowanych produktów</returns>
+        /// <returns>Collection of subscribed products</returns>
         public async Task<ICollection<Product>> GetSubscribeProductsAsync()
         {
             var products = (await _client.GetFromJsonAsync(uri + $"api/Ceneo/products", typeof(ICollection<Product>))) as ICollection<Product>;
@@ -116,10 +116,10 @@ namespace DesktopClient.Services
         }
 
         /// <summary>
-        /// Zapytania aby znieść subskrybcję produktu.
+        /// Unsubscribing product
         /// </summary>
-        /// <param name="link">Id produktu typu string</param>
-        /// <returns>Odpowiedz z serwera typu wiadomość</returns>
+        /// <param name="link">Id of product as string</param>
+        /// <returns>Feedback from the server</returns>
         public async Task<string> UnSubscribeProductsAsync(string link)
         {
             var Link = HttpUtility.UrlEncode(link);
@@ -128,9 +128,9 @@ namespace DesktopClient.Services
         }
 
         /// <summary>
-        /// Zapytanie sprawdzające cene produktów.
+        /// Check price 
         /// </summary>
-        /// <returns>Kolekcja subskrybowanych produktów</returns>
+        /// <returns>Collection of subscribed items</returns>
         public async Task<ICollection<Product>> UpdateProductsAsync()
         {
             //var message = await SendProductRequestAsync($"{uri}api/Ceneo/product/checkprice");
