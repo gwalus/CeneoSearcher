@@ -70,7 +70,7 @@
                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                 Content="{materialDesign:PackIcon HeartMinusOutline}"
                                 Height="30px"
-                                ToolTip="Subskrybuj" />
+                                ToolTip="Zrezygnuj z subskrypcji" />
 
                             <Button
                                 Command="{Binding Path=DataContext.GoToWebSiteProductCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"

@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Shared.Dtos;
 using Shared.Model;
+using System.Linq;
 
 namespace DesktopClient.ViewModels
 {
@@ -147,8 +148,9 @@ namespace DesktopClient.ViewModels
                 var message = Task.Run(() => _productRepository.SubscribeProductAsync(product)).Result;
                 if (message == "OK")
                 {
-                    SearchProductAsync();
-                    GetSubscribeProduct();
+                    Products.FirstOrDefault( p => p == productDto ).IsSubscribed = true;
+                    Products = new ObservableCollection<ProductDto>(Products);
+                    SubscribeProductCollection.Add(product);
                 }
             }
         }
@@ -174,8 +176,14 @@ namespace DesktopClient.ViewModels
                 var message = (Task.Run(() => _productRepository.UnSubscribeProductsAsync(link)).Result);
                 if (message == "OK")
                 {
-                    SearchProductAsync();
-                    GetSubscribeProduct();
+                    var p = Products.FirstOrDefault(p => p.Link == link);
+                    if ( p != null)
+                    {
+                        p.IsSubscribed = false;
+                        Products = new ObservableCollection<ProductDto>(Products);
+                    }
+                    SubscribeProductCollection.Remove(SubscribeProductCollection.FirstOrDefault(p => p.Link == link));
+   
                 }
             }
         }
