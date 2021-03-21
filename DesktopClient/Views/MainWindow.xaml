@@ -24,8 +24,9 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="9*"/>
+                    <ColumnDefinition Width="12*"/>
                     <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBox
@@ -38,12 +39,28 @@
                         Cursor="IBeam" 
                         Height="auto"/>
 
-                <Button Grid.Row="0" Grid.Column="1"
+              
+                    <Button 
+                        Grid.Row="0" Grid.Column="1"
                         Command="{Binding SearchProductCommand}"
                         Content="{materialDesign:PackIcon Magnify}"
                         ToolTip="Szukaj"
                         Margin="10,0,0,0"
+                        Width="auto"
                         Height="auto" Cursor="Hand" />
+
+                    <Button
+                        Grid.Row="0" Grid.Column="2"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Command="{Binding UpdateProductCommand}"
+                        Content="{materialDesign:PackIcon Reload}"
+                        ToolTip="Odśwież"
+                        Margin="10,0,0,0"
+                        Height="auto"
+                        Width="auto"
+                        Cursor="Hand" />
+            
+                
             </Grid>
 
         </materialDesign:ColorZone>

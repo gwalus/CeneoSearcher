@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Shared.Dtos;
 using Shared.Model;
+using System.Linq;
 
 namespace DesktopClient.ViewModels
 {
@@ -47,6 +48,7 @@ namespace DesktopClient.ViewModels
         public DelegateCommand<string> GoToWebSiteProductCommand { get; private set; }
         public DelegateCommand<ProductDto> SubscribeProductCommand { get; private set; }
         public DelegateCommand<string> UnSubscribeProductCommand { get; private set; }
+        public DelegateCommand UpdateProductCommand { get; private set; }
 
         /// <summary>
         /// Konstruktor przypisujący wstrzykniete zależności oraz tworzący instancję dla DelegateCommand.
@@ -59,6 +61,7 @@ namespace DesktopClient.ViewModels
             GoToWebSiteProductCommand = new DelegateCommand<string>(GoToWebSiteProduct, CanGoToWebSiteProduct);
             SubscribeProductCommand = new DelegateCommand<ProductDto>(SubscribeProduct, CanSubscribeProduct);
             UnSubscribeProductCommand = new DelegateCommand<string>(UnSubscribeProduct, CanUnSubscribeProduct);
+            UpdateProductCommand = new DelegateCommand(UpdateProduct, CanUpdateProduct);
             GetSubscribeProduct();
         }
 
@@ -147,8 +150,9 @@ namespace DesktopClient.ViewModels
                 var message = Task.Run(() => _productRepository.SubscribeProductAsync(product)).Result;
                 if (message == "OK")
                 {
-                    SearchProductAsync();
-                    GetSubscribeProduct();
+                    Products.FirstOrDefault(p => p == productDto).IsSubscribed = true;
+                    Products = new ObservableCollection<ProductDto>(Products);
+                    SubscribeProductCollection.Add(product);
                 }
             }
         }
@@ -174,8 +178,14 @@ namespace DesktopClient.ViewModels
                 var message = (Task.Run(() => _productRepository.UnSubscribeProductsAsync(link)).Result);
                 if (message == "OK")
                 {
-                    SearchProductAsync();
-                    GetSubscribeProduct();
+                    var p = Products.FirstOrDefault(p => p.Link == link);
+                    if (p != null)
+                    {
+                        p.IsSubscribed = false;
+                        Products = new ObservableCollection<ProductDto>(Products);
+                    }
+                    SubscribeProductCollection.Remove(SubscribeProductCollection.FirstOrDefault(p => p.Link == link));
+
                 }
             }
         }
@@ -197,5 +207,14 @@ namespace DesktopClient.ViewModels
         {
             SubscribeProductCollection = new ObservableCollection<Product>(Task.Run(() => _productRepository.GetSubscribeProductsAsync()).Result);
         }
+
+        void UpdateProduct()
+        { 
+        }
+        bool CanUpdateProduct() 
+        {
+            return true;
+        }
+
     }
 }
