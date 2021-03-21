@@ -23,6 +23,7 @@ namespace WebEngine.Services
         /// Method that allow us to scrap the information from the page 
         /// <paramref name="html">Link to list of products </paramref>
         /// </summary>
+        /// <returns>List of Products</returns>
         public List<Product> GetListOfProducts(string html)
         {
             var htmlDoc = _web.Load(html);
@@ -88,7 +89,7 @@ namespace WebEngine.Services
         /// This method enter the link from the parameter and take the lowest price of the product if possible
         /// </summary>
         /// <param name="link">Link to the specified product</param>
-        /// <returns></returns>
+        /// <returns>Single product price</returns>
         public double GetProductPrice(string link)
         {
             if (link.Contains("Click"))
