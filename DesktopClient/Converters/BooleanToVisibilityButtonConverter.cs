@@ -10,7 +10,7 @@ using System.Windows.Data;
 namespace DesktopClient.Converters
 {
     /// <summary>
-    /// Klasa konwertująca wartość bool na wartość widoczności.
+    /// Class that converts a bool value to a visibility value.
     /// </summary>
     public class InvertableBooleanToVisibilityConverter : IValueConverter
     {
@@ -20,13 +20,13 @@ namespace DesktopClient.Converters
         }
 
         /// <summary>
-        /// Metoda konwertująca wartość bool (true, false) na wartość widoczności (Visible, Collapsed).
+        /// Method that converts a bool (true, false) value to a visibility value(Visible, Collapsed).
         /// </summary>
-        /// <param name="value">parametr wejscia typu bool</param>
+        /// <param name="value">input parameter of bool type</param>
         /// <param name="targetType"></param>
-        /// <param name="parameter">Parametr działania - Normal(Normalny) lub Inverted(Odwrotny)</param>
+        /// <param name="parameter"> Operation parameter - Normal or Inverted</param>
         /// <param name="culture"></param>
-        /// <returns>Wartość typu Visibility</returns>
+        /// <returns>Visibility value</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var boolValue = (bool)value;
@@ -39,13 +39,13 @@ namespace DesktopClient.Converters
         }
 
         /// <summary>
-        /// Metoda konwertująca wartość widoczności (Visible, Collapsed) na wartość  bool (true, false).
+        /// Method that converts visibility (Visible, Collapsed) to bool (true, false).
         /// </summary>
-        /// <param name="value">parametr wejscia typu Visibility</param>
+        /// <param name="value">input parameter of type Visibility</param>
         /// <param name="targetType"></param>
-        /// <param name="parameter">Parametr działania - Normal(Normalny) lub Inverted(Odwrotny)</param>
+        /// <param name="parameter">Operation parameter - Normal or Inverted</param>
         /// <param name="culture"></param>
-        /// <returns>Wartość typu bool</returns>
+        /// <returns>bool</returns>
         public object ConvertBack(object value, Type targetType,
             object parameter, CultureInfo culture)
         {
