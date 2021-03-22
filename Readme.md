@@ -1,25 +1,5 @@
 ![](RackMultipart20210322-4-1q0k4u5_html_2dd637ae2fa5ca04.png)
-
-**WYDZIAŁ BUDOWY MASZYN I INFORMATYKI**
-
-**INFORMATYKA**
-
-**Dokumentacja projektu**
-
-Ceneo Searcher
-
-Wykonawcy:
-
-Jakub Gawęda 54403
-
-Grzegorz Waluś 54497
-
-Sławomir Kędzior 54418
-
-Bielsko-Biała 2021/2022
-
 # Spis treści
-
 [1. Charakterystyka projektu 2](#_Toc67302452)
 
 [2.Specyfikacja wymagań funkcjonalnych 3](#_Toc67302453)
